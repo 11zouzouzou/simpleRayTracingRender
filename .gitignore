@@ -32,3 +32,6 @@
 *.app
 
 CMakeFiles
+.cmake
+.ninja_deps
+.ninja_log
