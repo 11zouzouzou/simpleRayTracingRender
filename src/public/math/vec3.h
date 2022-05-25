@@ -66,7 +66,7 @@ using point3 = vec3; // 3D point
 using color = vec3;  // RGB color
 
 // vec3 Utility Functions
-
+//https://www.runoob.com/w3cnote/cpp-inline-usage.html
 // 定义vec3 的输出
 inline std::ostream& operator<<(std::ostream &out, const vec3 &v) {
     return out << v.e[0] << ' ' << v.e[1] << ' ' << v.e[2];
