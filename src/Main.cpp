@@ -3,7 +3,7 @@
 #include "ray.h"
 #include <iostream>
 
-bool hit_sphere(const point3 &center, double radius, const ray &r)
+double hit_sphere(const point3 &center, double radius, const ray &r)
 {
     // https://blog.csdn.net/air_liang1212/article/details/89633793
     vec3 oc = r.origin() - center;
@@ -11,15 +11,25 @@ bool hit_sphere(const point3 &center, double radius, const ray &r)
     auto b = 2.0 * dot(oc, r.direction());
     auto c = dot(oc, oc) - radius * radius;
     auto discriminant = b * b - 4 * a * c;
-    return (discriminant > 0);
+    if (discriminant < 0)
+    {
+        return -1;
+    }
+    else
+    {
+        return (-b - sqrt(discriminant)) / (2.0 * a);
+    }
 }
 
 color ray_color(const ray &r)
 {
     //与球碰撞相交
-    if (hit_sphere(point3(0, 0, -1), 0.5, r))
+    auto center = point3(0, 0, -1);
+    auto x = hit_sphere(center, 0.5, r); // x坐标
+    if (x > 0.0)
     {
-        return color(1.0, 1.0, 0.0);
+        vec3 N = unit_vector(r.at(x) - center); // r.at(x):球面交点
+        return 0.5 * color(N.x() + 1, N.y() + 1, N.z() + 1);
     }
 
     vec3 unit_direction = unit_vector(r.direction());                   //渐变色
