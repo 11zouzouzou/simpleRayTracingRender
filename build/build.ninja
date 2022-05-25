@@ -46,9 +46,10 @@ cmake_ninja_workdir = /Users/zou/Downloads/github/simpleRayTracingRender/build/
 
 build cmake_object_order_depends_target_SimpleRayTracingRender: phony || CMakeFiles/SimpleRayTracingRender.dir
 
-build CMakeFiles/SimpleRayTracingRender.dir/src/Main.cc.o: CXX_COMPILER__SimpleRayTracingRender_Debug /Users/zou/Downloads/github/simpleRayTracingRender/src/Main.cc || cmake_object_order_depends_target_SimpleRayTracingRender
-  DEP_FILE = CMakeFiles/SimpleRayTracingRender.dir/src/Main.cc.o.d
+build CMakeFiles/SimpleRayTracingRender.dir/src/Main.cpp.o: CXX_COMPILER__SimpleRayTracingRender_Debug /Users/zou/Downloads/github/simpleRayTracingRender/src/Main.cpp || cmake_object_order_depends_target_SimpleRayTracingRender
+  DEP_FILE = CMakeFiles/SimpleRayTracingRender.dir/src/Main.cpp.o.d
   FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11
+  INCLUDES = -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math
   OBJECT_DIR = CMakeFiles/SimpleRayTracingRender.dir
   OBJECT_FILE_DIR = CMakeFiles/SimpleRayTracingRender.dir/src
 
@@ -60,7 +61,7 @@ build CMakeFiles/SimpleRayTracingRender.dir/src/Main.cc.o: CXX_COMPILER__SimpleR
 #############################################
 # Link the executable SimpleRayTracingRender
 
-build SimpleRayTracingRender: CXX_EXECUTABLE_LINKER__SimpleRayTracingRender_Debug CMakeFiles/SimpleRayTracingRender.dir/src/Main.cc.o
+build SimpleRayTracingRender: CXX_EXECUTABLE_LINKER__SimpleRayTracingRender_Debug CMakeFiles/SimpleRayTracingRender.dir/src/Main.cpp.o
   FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
   OBJECT_DIR = CMakeFiles/SimpleRayTracingRender.dir
   POST_BUILD = :
