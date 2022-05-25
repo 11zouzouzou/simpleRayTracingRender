@@ -6,18 +6,32 @@
 double hit_sphere(const point3 &center, double radius, const ray &r)
 {
     // https://blog.csdn.net/air_liang1212/article/details/89633793
+    // vec3 oc = r.origin() - center;
+    // auto a = dot(r.direction(), r.direction());
+    // auto b = 2.0 * dot(oc, r.direction());
+    // auto c = dot(oc, oc) - radius * radius;
+    // auto discriminant = b * b - 4 * a * c;
+    // if (discriminant < 0)
+    // {
+    //     return -1;
+    // }
+    // else
+    // {
+    //     return (-b - sqrt(discriminant)) / (2.0 * a);
+    // }
+    //优化计算
     vec3 oc = r.origin() - center;
-    auto a = dot(r.direction(), r.direction());
-    auto b = 2.0 * dot(oc, r.direction());
-    auto c = dot(oc, oc) - radius * radius;
-    auto discriminant = b * b - 4 * a * c;
+    auto a = r.direction().length_squared(); //自身点积结果等于向量长度的平方
+    auto half_b = dot(oc, r.direction());    //只取b的half
+    auto c = oc.length_squared() - radius * radius;
+    auto discriminant = half_b * half_b - a * c;
     if (discriminant < 0)
     {
         return -1;
     }
     else
     {
-        return (-b - sqrt(discriminant)) / (2.0 * a);
+        return (-half_b - sqrt(discriminant)) / a;
     }
 }
 
