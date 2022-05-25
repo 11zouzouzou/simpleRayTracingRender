@@ -3,4 +3,16 @@ project(SimpleRayTracingRender)
 # Set to c++11
 set ( CMAKE_CXX_STANDARD 11 )
 
-add_executable(SimpleRayTracingRender src/Main.cc)
+# Source
+set(COMMON_ALL 
+ src/public/math/vec3.h)
+
+ set(SIMPLE_MAIN
+ ${COMMON_ALL}
+ src/Main.cpp
+ )
+
+add_executable(SimpleRayTracingRender ${SIMPLE_MAIN})
+
+# 包含math文件 
+include_directories(src/public/math)
