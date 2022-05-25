@@ -49,7 +49,7 @@ build cmake_object_order_depends_target_SimpleRayTracingRender: phony || CMakeFi
 build CMakeFiles/SimpleRayTracingRender.dir/src/SimpleMain.cpp.o: CXX_COMPILER__SimpleRayTracingRender_Debug /Users/zou/Downloads/github/simpleRayTracingRender/src/SimpleMain.cpp || cmake_object_order_depends_target_SimpleRayTracingRender
   DEP_FILE = CMakeFiles/SimpleRayTracingRender.dir/src/SimpleMain.cpp.o.d
   FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11
-  INCLUDES = -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math
+  INCLUDES = -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -I/Users/zou/Downloads/github/simpleRayTracingRender/src/simple
   OBJECT_DIR = CMakeFiles/SimpleRayTracingRender.dir
   OBJECT_FILE_DIR = CMakeFiles/SimpleRayTracingRender.dir/src
 
