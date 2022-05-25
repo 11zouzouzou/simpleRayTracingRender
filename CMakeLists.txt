@@ -16,3 +16,5 @@ add_executable(SimpleRayTracingRender ${SIMPLE_MAIN})
 
 # 包含math文件 
 include_directories(src/public/math)
+# 包含simple文件 
+include_directories(src/simple)
