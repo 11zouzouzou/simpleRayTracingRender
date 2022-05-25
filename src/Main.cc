@@ -10,6 +10,7 @@ int main(){
 
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
+    //循环颜色输出
     for (int j = image_height-1; j >= 0; --j) {
          std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < image_width; ++i) {
