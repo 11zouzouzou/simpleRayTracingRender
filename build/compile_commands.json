@@ -1,7 +1,7 @@
 [
 {
   "directory": "/Users/zou/Downloads/github/simpleRayTracingRender/build",
-  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/SimpleRayTracingRender.dir/src/Main.cpp.o -c /Users/zou/Downloads/github/simpleRayTracingRender/src/Main.cpp",
-  "file": "/Users/zou/Downloads/github/simpleRayTracingRender/src/Main.cpp"
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/SimpleRayTracingRender.dir/src/SimpleMain.cpp.o -c /Users/zou/Downloads/github/simpleRayTracingRender/src/SimpleMain.cpp",
+  "file": "/Users/zou/Downloads/github/simpleRayTracingRender/src/SimpleMain.cpp"
 }
 ]

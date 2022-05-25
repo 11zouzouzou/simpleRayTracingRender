@@ -9,7 +9,7 @@ set(COMMON_ALL
 
  set(SIMPLE_MAIN
  ${COMMON_ALL}
- src/Main.cpp
+ src/SimpleMain.cpp
  )
 
 add_executable(SimpleRayTracingRender ${SIMPLE_MAIN})
