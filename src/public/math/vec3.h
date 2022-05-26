@@ -184,4 +184,15 @@ inline vec3 random_in_hemisphere(const vec3 &normal)
         return -sample_sphere;
     }
 }
+/**
+ * @brief 镜面反射
+ *
+ * @param v 入射方向
+ * @param n 法线方向
+ * @return vec3 出射方向
+ */
+inline vec3 reflect(const vec3 &v, const vec3 &n)
+{
+    return v - 2 * dot(v, n) * n;
+}
 #endif
