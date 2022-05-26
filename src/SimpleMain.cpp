@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "camera.h"
 
 #include "color.h"
 #include "hittable_list.h"
@@ -72,15 +73,8 @@ int main()
     const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
 
-    //定义camera，视角看向的dir(0,0,-1)始终为视口中心
-    auto viewport_height = 2.0;
-    auto viewport_width = aspect_ratio * viewport_height;
-    auto focal_length = 1.0;
-
-    auto origin = point3(0, 0, 0);
-    auto horizontal = vec3(viewport_width, 0, 0);                                               //水平视口长
-    auto vertical = vec3(0, viewport_height, 0);                                                //垂直视口长
-    auto lower_left_corner = origin - horizontal / 2 - vertical / 2 - vec3(0, 0, focal_length); //相机视口几何的左下角的点
+    // camera
+    camera cam(aspect_ratio);
 
     //构造场景
     // World
@@ -102,7 +96,7 @@ int main()
             auto u = double(i) / (image_width - 1);
             auto v = double(j) / (image_height - 1);
             // static_cast http://c.biancheng.net/cpp/biancheng/view/3297.html
-            ray r(origin, lower_left_corner + u * horizontal + v * vertical - origin);
+            ray r = cam.get_ray(u, v);
             // color pixel_color = ray_color(r);
             color pixel_color = ray_color_hit(r, world);
             write_color(std::cout, pixel_color);
