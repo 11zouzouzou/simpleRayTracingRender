@@ -149,4 +149,12 @@ inline vec3 random_in_unit_sphere()
         return p;
     }
 }
+/**
+ * @brief 将球体内中的随机取得点进行归一化操作，为拾取单位球体表面上的随机点
+ * 
+ * @return vec3 
+ */
+inline vec3 random_unit_vector() {
+    return unit_vector(random_in_unit_sphere());
+}
 #endif
