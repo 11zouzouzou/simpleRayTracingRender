@@ -82,6 +82,9 @@ int main()
     world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
     world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
 
+    //抗锯齿周围像素样本采样数
+    const int samples_per_pixel = 100;
+
     // 渲染图像
     std::cout << "P3\n"
               << image_width << ' ' << image_height << "\n255\n";
@@ -92,14 +95,25 @@ int main()
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < image_width; ++i)
         {
-            // auto 使用https://blog.csdn.net/xiaoquantouer/article/details/51647865
-            auto u = double(i) / (image_width - 1);
-            auto v = double(j) / (image_height - 1);
-            // static_cast http://c.biancheng.net/cpp/biancheng/view/3297.html
-            ray r = cam.get_ray(u, v);
-            // color pixel_color = ray_color(r);
-            color pixel_color = ray_color_hit(r, world);
-            write_color(std::cout, pixel_color);
+            //正常采样
+            // // auto 使用https://blog.csdn.net/xiaoquantouer/article/details/51647865
+            // auto u = double(i) / (image_width - 1);
+            // auto v = double(j) / (image_height - 1);
+            // // static_cast http://c.biancheng.net/cpp/biancheng/view/3297.html
+            // ray r = cam.get_ray(u, v);
+            // // color pixel_color = ray_color(r);
+            // color pixel_color = ray_color_hit(r, world);
+            //  write_color(std::cout, pixel_color);
+            //采样周围像素混合，抗锯齿采样
+            color pixel_color(0, 0, 0);
+            for (int s = 0; s < samples_per_pixel; s++)
+            {
+                auto u = (i + random_double()) / (image_width - 1);
+                auto v = (j + random_double()) / (image_height - 1);
+                 ray r = cam.get_ray(u, v);
+                pixel_color += ray_color_hit(r, world);
+            }
+             write_color_multiply_samples(std::cout, pixel_color, samples_per_pixel);
         }
     }
     std::cerr << "\nDone.\n";
