@@ -140,7 +140,7 @@ int main()
     const int image_height = static_cast<int>(image_width / aspect_ratio);
 
     // camera
-    camera cam(aspect_ratio);
+    camera cam(120.0, aspect_ratio);
 
     // material
     auto material_center = make_shared<lambertian_material>(color(0.7, 0.7, 0.0));
@@ -154,7 +154,7 @@ int main()
     world.add(make_shared<sphere>(point3(0, -100.5, -1), 100.0, material_ground));
     world.add(make_shared<sphere>(point3(0, 0, -1), 0.5, material_center));
     world.add(make_shared<sphere>(point3(-1, 0, -1), 0.5, material_dielectric));
-     world.add(make_shared<sphere>(point3(-1, 0, -1), -0.3, material_dielectric));//负值 ，几何形状不受影响，但表面法线指向内部。这可以用作制造空心玻璃球的气泡
+    world.add(make_shared<sphere>(point3(-1, 0, -1), -0.3, material_dielectric)); //负值 ，几何形状不受影响，但表面法线指向内部。这可以用作制造空心玻璃球的气泡
     world.add(make_shared<sphere>(point3(0, 0, -0.5), 0.1, material_left));
     world.add(make_shared<sphere>(point3(1, 0, -1), 0.5, material_right));
 

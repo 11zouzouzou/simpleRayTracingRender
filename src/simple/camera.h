@@ -12,10 +12,13 @@ private:
     vec3 vertical;
 
 public:
-    camera(double aspect_ratio)
+    camera(double vfov, // vertical field-of-view in degrees
+           double aspect_ratio)
     {
+        auto theta = degrees_to_radians(vfov);
+        auto h = tan(theta / 2);
         //定义camera，视角看向的dir(0,0,-1)始终为视口中心
-        auto viewport_height = 2.0;
+        auto viewport_height = 2.0 * h;
         auto viewport_width = aspect_ratio * viewport_height;
         auto focal_length = 1.0;
 
