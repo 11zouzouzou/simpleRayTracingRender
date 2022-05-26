@@ -122,7 +122,7 @@ color ray_color_hit_track_mat(const ray &r, const hittable &world, int depth)
         if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
         {
             // attenuation 为这次射线的材质的颜色值
-            return attenuation * ray_color_hit_track(scattered, world, depth - 1);
+            return attenuation * ray_color_hit_track_mat(scattered, world, depth - 1);
         }
         return color(0, 0, 0);
     }
@@ -143,20 +143,22 @@ int main()
     camera cam(aspect_ratio);
 
     // material
-    auto material_center = make_shared<lambertian_material>(color(1.0, 1.0, 0.0));
-    auto material_ground = make_shared<lambertian_material>(color(1, 1, 1));
+    auto material_center = make_shared<lambertian_material>(color(0.7, 0.7, 0.0));
+    auto material_ground = make_shared<lambertian_material>(color(0.5, 1.0, 1.0));
     auto material_left = make_shared<metal_material>(color(1, 1, 1), 0.0);
-    auto material_right = make_shared<metal_material>(color(1, 0, 1), 0.8);
+    auto material_right = make_shared<metal_material>(color(1, 0, 1), 0.2);
+    auto material_dielectric = make_shared<dielectric_material>(1.5);
     //构造场景
     // World
     hittable_list world;
-    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5, material_center));
-    world.add(make_shared<sphere>(point3(-1, 0, -1), 0.5, material_left));
-     world.add(make_shared<sphere>(point3(1, 0, -1), 0.5, material_right));
     world.add(make_shared<sphere>(point3(0, -100.5, -1), 100.0, material_ground));
+    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5, material_center));
+    world.add(make_shared<sphere>(point3(-1, 0, -1), 0.5, material_dielectric));
+    world.add(make_shared<sphere>(point3(0, 0, -0.5), 0.1, material_left));
+    world.add(make_shared<sphere>(point3(1, 0, -1), 0.5, material_right));
 
     //抗锯齿周围像素样本采样数
-    const int samples_per_pixel = 100;
+    const int samples_per_pixel = 10;
     //一条射线反弹递归最大数
     const int max_depth = 50;
 
@@ -187,6 +189,7 @@ int main()
                 auto v = (j + random_double()) / (image_height - 1);
                 ray r = cam.get_ray(u, v);
                 // pixel_color += ray_color_hit(r, world);
+                //  pixel_color += ray_color_hit_track(r, world, max_depth);
                 pixel_color += ray_color_hit_track_mat(r, world, max_depth);
             }
             write_color_multiply_samples(std::cout, pixel_color, samples_per_pixel);

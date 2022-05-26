@@ -195,4 +195,21 @@ inline vec3 reflect(const vec3 &v, const vec3 &n)
 {
     return v - 2 * dot(v, n) * n;
 }
+
+/**
+ * @brief 折射
+ *
+ * @param uv
+ * @param n
+ * @param refract_index 折射率 //折射率计算公式为：n=c/v。这里n为折射率，c为真空光速，v为介质光速。比如按这个公式结算，光在水中的折射率为n=30/22.5≈1.33
+ * @return vec3
+ */
+inline vec3 refract(const vec3 &uv, const vec3 &n, double refract_ratio)
+{
+    //推导：https://blog.csdn.net/yinhun2012/article/details/79472364
+    auto cos_theta = fmin(dot(-uv, n), 1.0);
+    vec3 r_out_perp = refract_ratio * (uv + cos_theta * n);
+    vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
+    return r_out_perp + r_out_parallel;
+}
 #endif

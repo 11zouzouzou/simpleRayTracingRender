@@ -39,7 +39,7 @@ public:
     }
 };
 /**
- * @brief 金属反射材质
+ * @brief 金属散射材质
  *
  */
 class metal_material : public material
@@ -58,6 +58,31 @@ public:
         attenuation = albedo;
         return (dot(scattered.direction(), rec.normal) > 0);
     }
+};
+/**
+ * @brief 电介质材质
+ *
+ */
+class dielectric_material : public material
+{
+public:
+    dielectric_material(double index_of_refraction) : ir(index_of_refraction) {}
+
+    virtual bool scatter(
+        const ray &r_in, const hit_record &rec, color &attenuation, ray &scattered) const override
+    {
+        attenuation = color(1.0, 1.0, 1.0);
+        double refraction_ratio = rec.front_face ? (1.0 / ir) : ir;
+        //，总是折射
+        vec3 unit_direction = unit_vector(r_in.direction());
+        vec3 refracted = refract(unit_direction, rec.normal, refraction_ratio);
+
+        scattered = ray(rec.p, refracted);
+        return true;
+    }
+
+public:
+    double ir; // Index of Refraction
 };
 
 #endif
