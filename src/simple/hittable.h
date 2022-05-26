@@ -1,14 +1,17 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
-#include "ray.h"
+#include "utils.h"
 
+class material;
 struct hit_record
 {
     /**交点*/
     point3 p;
     /**法线方向(归一化)*/
     vec3 normal;
+    /**当前所碰撞的材质*/
+    shared_ptr<material> mat_ptr;
     /**x坐标*/
     double t;
     /**根据当前射线方向与法线朝向决定是背面还是正面*/

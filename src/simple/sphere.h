@@ -1,16 +1,19 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 #include "hittable.h"
+#include "material.h"
 #include "vec3.h"
 class sphere : public hittable
 {
 public:
     point3 center;
     double radius;
+    //挂载的材质
+    shared_ptr<material> mat_ptr;
 
 public:
     sphere() {}
-    sphere(point3 cen, double r) : center(cen), radius(r){};
+    sphere(point3 cen, double r, shared_ptr<material> m) : center(cen), radius(r), mat_ptr(m) {};
     // https://blog.csdn.net/qq_35516517/article/details/110072421 重写虚函数
     virtual bool hit(const ray &r, double t_min, double t_max, hit_record &rec) const override;
 };
@@ -39,6 +42,7 @@ bool sphere::hit(const ray &r, double t_min, double t_max, hit_record &rec) cons
     rec.p = r.at(rec.t);
     vec3 out_normal = (rec.p - center) / radius;
     rec.set_face_normal(r, out_normal);
+    rec.mat_ptr = mat_ptr;
     return true;
 }
 

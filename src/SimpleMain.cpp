@@ -92,13 +92,39 @@ color ray_color_hit_track(const ray &r, const hittable &world, int depth)
         // point3 target = rec.p + rec.normal + random_unit_vector();
         /**
          * 当前射线击中目标时,击中点法线方向为圆心,击中点表面外的单位球上半球内随机取一点作为下一条射线的目标点
-         * Lambertian reflectance
-         * 完全漫反射
          * image7.ppm
          */
         point3 target = rec.p + random_in_hemisphere(rec.normal);
+
         // 0.5为每次衰减值
         return 0.5 * ray_color_hit_track(ray(rec.p, target - rec.p), world, depth - 1);
+        // use material
+    }
+    //环境颜色
+    vec3 unit_direction = unit_vector(r.direction());
+    auto t = 0.5 * (unit_direction.y() + 1.0);
+    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+}
+
+color ray_color_hit_track_mat(const ray &r, const hittable &world, int depth)
+{
+    hit_record rec;
+    // 递归超出范围默认为黑色，不做光贡献
+    if (depth <= 0)
+        return color(0, 0, 0);
+    // t_min = 0的话 ，一些反射光线击中了它们所反射的物体，不是精确地𝑡 = 0，导致每次都渲染到最大递归值，无光贡献，画面就会很黑
+    if (world.hit(r, 0.001, infinity, rec))
+    {
+        //递归
+        // use material
+        ray scattered;
+        color attenuation;
+        if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+        {
+            // attenuation 为这次射线的材质的颜色值
+            return attenuation * ray_color_hit_track(scattered, world, depth - 1);
+        }
+        return color(0, 0, 0);
     }
     //环境颜色
     vec3 unit_direction = unit_vector(r.direction());
@@ -116,11 +142,14 @@ int main()
     // camera
     camera cam(aspect_ratio);
 
+    // material
+    auto material_center = make_shared<lambertian_material>(color(1.0, 1.0, 0.0));
+    auto material_ground = make_shared<lambertian_material>(color(1, 1, 1));
     //构造场景
     // World
     hittable_list world;
-    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
-    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
+    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5, material_center));
+    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100.0, material_ground));
 
     //抗锯齿周围像素样本采样数
     const int samples_per_pixel = 100;
@@ -154,7 +183,7 @@ int main()
                 auto v = (j + random_double()) / (image_height - 1);
                 ray r = cam.get_ray(u, v);
                 // pixel_color += ray_color_hit(r, world);
-                pixel_color += ray_color_hit_track(r, world, max_depth);
+                pixel_color += ray_color_hit_track_mat(r, world, max_depth);
             }
             write_color_multiply_samples(std::cout, pixel_color, samples_per_pixel);
         }
