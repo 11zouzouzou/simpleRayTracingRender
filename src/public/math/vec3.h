@@ -124,9 +124,29 @@ inline vec3 cross(const vec3 &u, const vec3 &v)
                 u.e[2] * v.e[0] - u.e[0] * v.e[2],
                 u.e[0] * v.e[1] - u.e[1] * v.e[0]);
 }
-
+/**
+ * @brief 归一化vec3
+ *
+ * @param v
+ * @return vec3
+ */
 inline vec3 unit_vector(vec3 v)
 {
     return v / v.length();
+}
+/**
+ * @brief 随机取单位球体中的一点，球心为(0,0,0)
+ *
+ * @return vec3
+ */
+inline vec3 random_in_unit_sphere()
+{
+    while (true)
+    {
+        auto p = vec3::random(-1, 1);
+        if (p.length_squared() >= 1)
+            continue;
+        return p;
+    }
 }
 #endif

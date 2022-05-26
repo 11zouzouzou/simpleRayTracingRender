@@ -65,6 +65,25 @@ color ray_color_hit(const ray &r, const hittable &world)
     auto t = 0.5 * (unit_direction.y() + 1.0);
     return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
+color ray_color_hit_track(const ray &r, const hittable &world, int depth)
+{
+    hit_record rec;
+    // 递归超出范围默认为黑色，不做光贡献
+    if (depth <= 0)
+        return color(0, 0, 0);
+    // t_min = 0的话 ，一些反射光线击中了它们所反射的物体，不是精确地𝑡 = 0，导致每次都渲染到最大递归值，无光贡献，画面就会很黑
+    if (world.hit(r, 0.001, infinity, rec))
+    {
+        //递归，当前射线击中目标时,击中点法线方向为圆心,击中点表面外的单位球内的随机取一点作为下一条射线的目标点
+        point3 target = rec.p + rec.normal + random_in_unit_sphere();
+        //0.5为每次衰减值
+        return 0.5 * ray_color_hit_track(ray(rec.p, target - rec.p), world, depth - 1);
+    }
+    //环境颜色
+    vec3 unit_direction = unit_vector(r.direction());
+    auto t = 0.5 * (unit_direction.y() + 1.0);
+    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+}
 
 int main()
 {
@@ -84,6 +103,8 @@ int main()
 
     //抗锯齿周围像素样本采样数
     const int samples_per_pixel = 100;
+    //一条射线反弹递归最大数
+    const int max_depth = 50;
 
     // 渲染图像
     std::cout << "P3\n"
@@ -110,10 +131,11 @@ int main()
             {
                 auto u = (i + random_double()) / (image_width - 1);
                 auto v = (j + random_double()) / (image_height - 1);
-                 ray r = cam.get_ray(u, v);
-                pixel_color += ray_color_hit(r, world);
+                ray r = cam.get_ray(u, v);
+                // pixel_color += ray_color_hit(r, world);
+                pixel_color += ray_color_hit_track(r, world, max_depth);
             }
-             write_color_multiply_samples(std::cout, pixel_color, samples_per_pixel);
+            write_color_multiply_samples(std::cout, pixel_color, samples_per_pixel);
         }
     }
     std::cerr << "\nDone.\n";
