@@ -151,10 +151,30 @@ inline vec3 random_in_unit_sphere()
 }
 /**
  * @brief 将球体内中的随机取得点进行归一化操作，为拾取单位球体表面上的随机点
+ * lambertian reflectance
+ * @return vec3
+ */
+inline vec3 random_unit_vector()
+{
+    return unit_vector(random_in_unit_sphere());
+}
+
+/**
+ * @brief 半球采样
  * 
+ * @param normal 
  * @return vec3 
  */
-inline vec3 random_unit_vector() {
-    return unit_vector(random_in_unit_sphere());
+inline vec3 random_in_hemisphere(const vec3 &normal)
+{
+    vec3 sample_sphere = random_in_unit_sphere();
+    if (dot(sample_sphere, normal) > 0.0)
+    {
+        return sample_sphere;
+    }
+    else
+    {
+        return -sample_sphere;
+    }
 }
 #endif

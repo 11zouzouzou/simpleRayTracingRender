@@ -76,21 +76,28 @@ color ray_color_hit_track(const ray &r, const hittable &world, int depth)
     {
         //递归
         /**
-         * 当前射线击中目标时,击中点法线方向为圆心,击中点表面外的单位球内的随机取一点作为下一条射线的目标点 
+         * 当前射线击中目标时,击中点法线方向为圆心,击中点表面外的单位球内的随机取一点作为下一条射线的目标点
          * 接近法线的高概率在半球上拾取方向，并且在掠射角处散射光线的概率较低。
          * 以小角度到达的光会散布在更大的区域上，因此对最终颜色的贡献较小。
          * image5.ppm
          */
         // point3 target = rec.p + rec.normal + random_in_unit_sphere();
         /**
-         * 当前射线击中目标时,击中点法线方向为圆心,击中点表面外的单位球表面的随机取一点作为下一条射线的目标点 
+         * 当前射线击中目标时,击中点法线方向为圆心,击中点表面外的单位球表面的随机取一点作为下一条射线的目标点
          * Lambertian reflectance
          * 比取球体内点 光线的散射更均匀；朝向法线散射的光线更少
          * 完全漫反射
          * image6.ppm
          */
-        point3 target = rec.p + rec.normal + random_unit_vector();
-        //0.5为每次衰减值
+        // point3 target = rec.p + rec.normal + random_unit_vector();
+        /**
+         * 当前射线击中目标时,击中点法线方向为圆心,击中点表面外的单位球上半球内随机取一点作为下一条射线的目标点
+         * Lambertian reflectance
+         * 完全漫反射
+         * image7.ppm
+         */
+        point3 target = rec.p + random_in_hemisphere(rec.normal);
+        // 0.5为每次衰减值
         return 0.5 * ray_color_hit_track(ray(rec.p, target - rec.p), world, depth - 1);
     }
     //环境颜色
