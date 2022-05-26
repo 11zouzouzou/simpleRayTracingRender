@@ -60,7 +60,7 @@ public:
     }
 };
 /**
- * @brief 电介质材质
+ * @brief 电介质材质(总发生折射)
  *
  */
 class dielectric_material : public material
@@ -73,16 +73,38 @@ public:
     {
         attenuation = color(1.0, 1.0, 1.0);
         double refraction_ratio = rec.front_face ? (1.0 / ir) : ir;
-        //，总是折射
         vec3 unit_direction = unit_vector(r_in.direction());
-        vec3 refracted = refract(unit_direction, rec.normal, refraction_ratio);
+        // a sina = b sinb 斯涅耳等式判断
+        double cos_theta = fmin(dot(-unit_direction, rec.normal), 1.0);
+        double sin_theta = sqrt(1.0 - cos_theta * cos_theta);
 
-        scattered = ray(rec.p, refracted);
+        bool cannot_refract = refraction_ratio * sin_theta > 1.0; //默认从空气射入
+
+        vec3 direction;
+
+        // reflectance为光被反射的概率
+        if (cannot_refract || reflectance(cos_theta, refraction_ratio) > random_double())
+            direction = reflect(unit_direction, rec.normal); //通常是在固体物体内部
+        else
+            direction = refract(unit_direction, rec.normal, refraction_ratio);
+
+        scattered = ray(rec.p, direction);
         return true;
     }
 
 public:
     double ir; // Index of Refraction
+
+private:
+    static double reflectance(double cosine, double ref_idx)
+    {
+        // Use Schlick's approximation for reflectance.
+        // https://zhuanlan.zhihu.com/p/372110183
+        // https://zhuanlan.zhihu.com/p/96498097
+        auto r0 = (1 - ref_idx) / (1 + ref_idx);
+        r0 = r0 * r0;
+        return r0 + (1 - r0) * pow((1 - cosine), 5);
+    }
 };
 
 #endif
