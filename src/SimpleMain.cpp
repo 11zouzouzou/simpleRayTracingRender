@@ -140,7 +140,10 @@ int main()
     const int image_height = static_cast<int>(image_width / aspect_ratio);
 
     // camera
-    camera cam(120.0, aspect_ratio);
+    //  point3 lookfrom,
+    //     point3 lookat,
+    //     vec3 vup,
+    camera cam(point3(-1.5, 1.5, 1.5), point3(0, 0, -1), vec3(0, 1, 0), 45.0, aspect_ratio);
 
     // material
     auto material_center = make_shared<lambertian_material>(color(0.7, 0.7, 0.0));
