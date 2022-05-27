@@ -143,7 +143,11 @@ int main()
     //  point3 lookfrom,
     //     point3 lookat,
     //     vec3 vup,
-    camera cam(point3(-1.5, 1.5, 1.5), point3(0, 0, -1), vec3(0, 1, 0), 45.0, aspect_ratio);
+    point3 lookfrom(3, 3, 2);
+    point3 lookat(0, 0, -1);
+    auto dist_to_focus = (lookfrom - lookat).length();//焦点的距离
+    auto aperture = 0.6;//孔距
+    camera cam(lookfrom, lookat, vec3(0, 1, 0), 20.0, aspect_ratio, aperture, dist_to_focus);
 
     // material
     auto material_center = make_shared<lambertian_material>(color(0.7, 0.7, 0.0));
@@ -162,7 +166,7 @@ int main()
     world.add(make_shared<sphere>(point3(1, 0, -1), 0.5, material_right));
 
     //抗锯齿周围像素样本采样数
-    const int samples_per_pixel = 10;
+    const int samples_per_pixel = 50;
     //一条射线反弹递归最大数
     const int max_depth = 50;
 

@@ -212,4 +212,21 @@ inline vec3 refract(const vec3 &uv, const vec3 &n, double refract_ratio)
     vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
     return r_out_perp + r_out_parallel;
 }
+
+/**
+ * @brief 随机单位圆片取点
+ *
+ * @return vec3
+ */
+inline vec3 random_in_unit_disk()
+{
+    while (true)
+    {
+        auto p = vec3(random_double(-1, 1), random_double(-1, 1), 0);
+        if (p.length_squared() >= 1)
+            continue;
+        return p;
+    }
+}
+
 #endif
