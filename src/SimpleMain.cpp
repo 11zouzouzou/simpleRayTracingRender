@@ -132,41 +132,83 @@ color ray_color_hit_track_mat(const ray &r, const hittable &world, int depth)
     return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 
+hittable_list create_scene3d()
+{
+    hittable_list world;
+    // material
+    auto material_center = make_shared<lambertian_material>(color(0.7, 0.7, 0.0));
+    auto material_ground = make_shared<lambertian_material>(color(0.5, 1.0, 1.0));
+    auto material_left = make_shared<metal_material>(color(0.7, 0.6, 0.5), 0.0);
+    auto material_right = make_shared<metal_material>(color(1, 0, 0.5), 0.2);
+    auto material_dielectric = make_shared<dielectric_material>(1.5);
+    //随机生成
+    for (int a = -3; a < 2; a++)
+    {
+        for (int b = -3; b < 2; b++)
+        {
+            auto choose_mat = random_double();
+            point3 center(a + 0.9 * random_double(), 0.1, b + 0.9 * random_double());
+
+            if ((center - point3(4, 0.2, 0)).length() > 0.9)
+            {
+                shared_ptr<material> sphere_material;
+
+                if (choose_mat < 0.7)
+                {
+                    // diffuse
+                    auto albedo = color::random() * color::random();
+                    sphere_material = make_shared<lambertian_material>(albedo);
+                    world.add(make_shared<sphere>(center, 0.2, sphere_material));
+                }
+                else if (choose_mat < 0.95)
+                {
+                    // metal
+                    auto albedo = color::random(0.5, 1);
+                    auto fuzz = random_double(0, 0.5);
+                    sphere_material = make_shared<metal_material>(albedo, fuzz);
+                    world.add(make_shared<sphere>(center, 0.2, sphere_material));
+                }
+                else
+                {
+                    // glass
+                    sphere_material = make_shared<dielectric_material>(1.5);
+                    world.add(make_shared<sphere>(center, 0.2, sphere_material));
+                }
+            }
+        }
+    }
+
+    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100.0, material_ground));
+    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5, material_left));
+    world.add(make_shared<sphere>(point3(-1, 0, -1), 0.5, material_dielectric));
+    world.add(make_shared<sphere>(point3(-1, 0, -1), -0.3, material_dielectric)); //负值 ，几何形状不受影响，但表面法线指向内部。这可以用作制造空心玻璃球的气泡
+    world.add(make_shared<sphere>(point3(0, 0, -0.5), 0.1, material_center));
+    world.add(make_shared<sphere>(point3(1, 0, -1), 0.5, material_right));
+    return world;
+}
+
 int main()
 {
     // 图形大小 设置为16:9;
     const auto aspect_ratio = 16.0 / 9.0;
-    const int image_width = 400;
+    const int image_width = 1024;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
 
     // camera
     //  point3 lookfrom,
     //     point3 lookat,
     //     vec3 vup,
-    point3 lookfrom(3, 3, 2);
+    point3 lookfrom(4, 4, 3);
     point3 lookat(0, 0, -1);
-    auto dist_to_focus = (lookfrom - lookat).length();//焦点的距离
-    auto aperture = 0.6;//孔距
+    auto dist_to_focus = (lookfrom - lookat).length(); //焦点的距离
+    auto aperture = 0.1;                               //孔距
     camera cam(lookfrom, lookat, vec3(0, 1, 0), 20.0, aspect_ratio, aperture, dist_to_focus);
-
-    // material
-    auto material_center = make_shared<lambertian_material>(color(0.7, 0.7, 0.0));
-    auto material_ground = make_shared<lambertian_material>(color(0.5, 1.0, 1.0));
-    auto material_left = make_shared<metal_material>(color(1, 1, 1), 0.0);
-    auto material_right = make_shared<metal_material>(color(1, 0, 1), 0.2);
-    auto material_dielectric = make_shared<dielectric_material>(1.5);
     //构造场景
     // World
-    hittable_list world;
-    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100.0, material_ground));
-    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5, material_center));
-    world.add(make_shared<sphere>(point3(-1, 0, -1), 0.5, material_dielectric));
-    world.add(make_shared<sphere>(point3(-1, 0, -1), -0.3, material_dielectric)); //负值 ，几何形状不受影响，但表面法线指向内部。这可以用作制造空心玻璃球的气泡
-    world.add(make_shared<sphere>(point3(0, 0, -0.5), 0.1, material_left));
-    world.add(make_shared<sphere>(point3(1, 0, -1), 0.5, material_right));
+    hittable_list world = create_scene3d();
 
     //抗锯齿周围像素样本采样数
-    const int samples_per_pixel = 50;
+    const int samples_per_pixel = 10;
     //一条射线反弹递归最大数
     const int max_depth = 50;
 
