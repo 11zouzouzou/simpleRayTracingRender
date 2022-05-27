@@ -15,10 +15,13 @@ public:
     aabb(const point3 &a, const point3 &b)
     {
         minimum = a;
-        maximum = b
+        maximum = b;
     }
 
-    bool hit(const ray &r, double t_min, double t_max)
+    point3 min() const { return minimum; }
+    point3 max() const { return maximum; }
+
+    bool hit(const ray &r, double t_min, double t_max) const
     {
         // https://blog.csdn.net/LIQIANGEASTSUN/article/details/119544664
         for (int a = 0; a < 3; a++)
@@ -46,7 +49,8 @@ public:
         //  }
         //  return true;
     }
-} aabb surrounding_box(aabb box0, aabb box1)
+}; 
+aabb surrounding_box(aabb box0, aabb box1)
 {
     vec3 small(fmin(box0.min().x(), box1.min().x()),
                fmin(box0.min().y(), box1.min().y()),

@@ -5,7 +5,10 @@
 #include "hittable_list.h"
 #include "sphere.h"
 #include "moving_sphere.h"
+#include "bvh.h"
 #include <iostream>
+// test
+#include <time.h>
 
 double hit_sphere(const point3 &center, double radius, const ray &r)
 {
@@ -143,12 +146,12 @@ hittable_list create_scene3d()
     auto material_right = make_shared<metal_material>(color(1, 0, 0.5), 0.2);
     auto material_dielectric = make_shared<dielectric_material>(1.5);
     //随机生成
-    for (int a = -3; a < 2; a++)
+    for (int a = -3; a < 3; a++)
     {
-        for (int b = -3; b < 2; b++)
+        for (int b = -3; b < 3; b++)
         {
             auto choose_mat = random_double();
-            point3 center(a + 0.9 * random_double(), 0.1, b + 0.9 * random_double());
+            point3 center(a + 0.9 * random_double(), 0.0, b + 0.9 * random_double());
 
             if ((center - point3(4, 0.2, 0)).length() > 0.9)
             {
@@ -159,7 +162,7 @@ hittable_list create_scene3d()
                     // diffuse
                     auto albedo = color::random() * color::random();
                     sphere_material = make_shared<lambertian_material>(albedo);
-                    auto center2 = center + vec3(0, random_double(0, 0.5), 0); //随机高度
+                    auto center2 = center + vec3(0, random_double(0, 0.2), 0); //随机高度
                     world.add(make_shared<moving_sphere>(center, center2, 0.0, 1.0, 0.2, sphere_material));
                 }
                 else if (choose_mat < 0.95)
@@ -186,11 +189,14 @@ hittable_list create_scene3d()
     world.add(make_shared<sphere>(point3(-1, 0, -1), -0.3, material_dielectric)); //负值 ，几何形状不受影响，但表面法线指向内部。这可以用作制造空心玻璃球的气泡
     world.add(make_shared<sphere>(point3(0, 0, -0.5), 0.1, material_center));
     world.add(make_shared<sphere>(point3(1, 0, -1), 0.5, material_right));
-    return world;
+    // return world;
+    return hittable_list(make_shared<bvh_node>(world, 0.0, 1.0));//当数量比较多时起作用
 }
 
 int main()
 {
+    time_t c_start = clock();
+
     // 图形大小 设置为16:9;
     const auto aspect_ratio = 16.0 / 9.0;
     const int image_width = 400;
@@ -200,11 +206,11 @@ int main()
     //  point3 lookfrom,
     //     point3 lookat,
     //     vec3 vup,
-    point3 lookfrom(4, 4, 3);
+    point3 lookfrom(3, 2, 3);
     point3 lookat(0, 0, -1);
     auto dist_to_focus = (lookfrom - lookat).length(); //焦点的距离
     auto aperture = 0.1;                               //孔距
-    camera cam(lookfrom, lookat, vec3(0, 1, 0), 20.0, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
+    camera cam(lookfrom, lookat, vec3(0, 1, 0), 45.0, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
     //构造场景
     // World
     hittable_list world = create_scene3d();
@@ -214,6 +220,9 @@ int main()
     //一条射线反弹递归最大数
     const int max_depth = 50;
 
+    time_t c_scene3d_end = clock();
+    std::cerr << "create scene3d time: " << difftime(c_scene3d_end, c_start) << "\n";
+    time_t c_render_start =  clock();
     // 渲染图像
     std::cout << "P3\n"
               << image_width << ' ' << image_height << "\n255\n";
@@ -247,5 +256,7 @@ int main()
             write_color_multiply_samples(std::cout, pixel_color, samples_per_pixel);
         }
     }
+    time_t c_render_end = clock();
+    std::cerr << "\n render time:" << difftime(c_render_end, c_render_start) << "\n";
     std::cerr << "\nDone.\n";
 }
