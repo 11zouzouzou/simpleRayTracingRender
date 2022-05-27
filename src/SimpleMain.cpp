@@ -4,6 +4,7 @@
 #include "color.h"
 #include "hittable_list.h"
 #include "sphere.h"
+#include "moving_sphere.h"
 #include <iostream>
 
 double hit_sphere(const point3 &center, double radius, const ray &r)
@@ -158,7 +159,8 @@ hittable_list create_scene3d()
                     // diffuse
                     auto albedo = color::random() * color::random();
                     sphere_material = make_shared<lambertian_material>(albedo);
-                    world.add(make_shared<sphere>(center, 0.2, sphere_material));
+                    auto center2 = center + vec3(0, random_double(0, 0.5), 0); //随机高度
+                    world.add(make_shared<moving_sphere>(center, center2, 0.0, 1.0, 0.2, sphere_material));
                 }
                 else if (choose_mat < 0.95)
                 {
@@ -191,7 +193,7 @@ int main()
 {
     // 图形大小 设置为16:9;
     const auto aspect_ratio = 16.0 / 9.0;
-    const int image_width = 1024;
+    const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
 
     // camera
@@ -202,7 +204,7 @@ int main()
     point3 lookat(0, 0, -1);
     auto dist_to_focus = (lookfrom - lookat).length(); //焦点的距离
     auto aperture = 0.1;                               //孔距
-    camera cam(lookfrom, lookat, vec3(0, 1, 0), 20.0, aspect_ratio, aperture, dist_to_focus);
+    camera cam(lookfrom, lookat, vec3(0, 1, 0), 20.0, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
     //构造场景
     // World
     hittable_list world = create_scene3d();
