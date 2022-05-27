@@ -13,6 +13,9 @@ private:
     vec3 u, v, w; //保存uv平面与w方向
     double lens_radius;
 
+    double time0; //时间段-快门-初始
+    double time1; //时间段-快门-结束
+
 public:
     camera(
         point3 lookfrom,
@@ -20,9 +23,10 @@ public:
         vec3 vup,
         double vfov, // vertical field-of-view in degrees
         double aspect_ratio,
-        double aperture,  //光圈孔直径
-        double focus_dist //强制设置内距比例
-    )
+        double aperture,   //光圈孔直径
+        double focus_dist, //强制设置内距
+        double _time0 = 0,
+        double _time1 = 0)
     {
         auto theta = degrees_to_radians(vfov);
         auto h = tan(theta / 2);
@@ -40,6 +44,9 @@ public:
         lower_left_corner = origin - horizontal / 2 - vertical / 2 - focus_dist * w; //相机视口几何的左下角的点//w为距相机点的距离，为单位长度
 
         lens_radius = aperture / 2;
+
+        time0 = _time0;
+        time1 = _time1;
     }
 
     ray get_ray(double s, double t) const
@@ -47,7 +54,7 @@ public:
         //景深：https://zhuanlan.zhihu.com/p/400260362
         vec3 rd = lens_radius * random_in_unit_disk(); //随机圆片取点
         vec3 offset = u * rd.x() + v * rd.y();         //沿uv平面偏移量
-        return ray(origin + offset, lower_left_corner + s * horizontal + t * vertical - origin - offset);
+        return ray(origin + offset, lower_left_corner + s * horizontal + t * vertical - origin - offset, random_double(time0, time1));
     }
 };
 
