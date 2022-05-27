@@ -17,6 +17,9 @@ struct hit_record
     double t;
     /**根据当前射线方向与法线朝向决定是背面还是正面*/
     bool front_face;
+    //命中点的uv 表面坐标
+    double u;
+    double v;
 
     inline void set_face_normal(const ray &r, const vec3 &outward_normal)
     {

@@ -6,6 +6,7 @@
 #include "sphere.h"
 #include "moving_sphere.h"
 #include "bvh.h"
+#include "texture.h"
 #include <iostream>
 // test
 #include <time.h>
@@ -140,7 +141,7 @@ hittable_list create_scene3d()
 {
     hittable_list world;
     // material
-    auto material_center = make_shared<lambertian_material>(color(0.7, 0.7, 0.0));
+    auto material_center = make_shared<lambertian_material>(make_shared<solid_color>(0.7, 0.7, 0.0));
     auto material_ground = make_shared<lambertian_material>(color(0.5, 1.0, 1.0));
     auto material_left = make_shared<metal_material>(color(0.7, 0.6, 0.5), 0.0);
     auto material_right = make_shared<metal_material>(color(1, 0, 0.5), 0.2);

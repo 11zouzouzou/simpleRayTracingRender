@@ -2,6 +2,7 @@
 #define MATERIAL_H
 
 #include "utils.h"
+#include "texture.h"
 
 struct hit_record;
 
@@ -21,10 +22,11 @@ class lambertian_material : public material
 {
 public:
     /**反照率,可以理解为反射的颜色值*/
-    color albedo;
+    shared_ptr<texture> albedo;
 
 public:
-    lambertian_material(const color &a) : albedo(a) {}
+    lambertian_material(const color &a) : albedo(make_shared<solid_color>(a)) {}
+    lambertian_material(shared_ptr<texture> a) : albedo(a) {}
     virtual bool scatter(const ray &r_in, const hit_record &rec, color &attenuation, ray &scattered) const override
     {
         vec3 scatter_direction = rec.normal + random_unit_vector(); //法线方向的偏移
@@ -34,7 +36,7 @@ public:
         }
 
         scattered = ray(rec.p, scatter_direction, r_in.time());
-        attenuation = albedo;
+        attenuation = albedo->value(rec.u, rec.v, rec.p);
         return true;
     }
 };
