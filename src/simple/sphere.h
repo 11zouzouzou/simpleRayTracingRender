@@ -3,6 +3,7 @@
 #include "hittable.h"
 #include "material.h"
 #include "vec3.h"
+#include "aabb.h"
 class sphere : public hittable
 {
 public:
@@ -13,9 +14,10 @@ public:
 
 public:
     sphere() {}
-    sphere(point3 cen, double r, shared_ptr<material> m) : center(cen), radius(r), mat_ptr(m) {};
+    sphere(point3 cen, double r, shared_ptr<material> m) : center(cen), radius(r), mat_ptr(m){};
     // https://blog.csdn.net/qq_35516517/article/details/110072421 重写虚函数
     virtual bool hit(const ray &r, double t_min, double t_max, hit_record &rec) const override;
+    virtual bool bounding_box(double time0, double time1, aabb &output_box) const override;
 };
 
 bool sphere::hit(const ray &r, double t_min, double t_max, hit_record &rec) const
@@ -43,6 +45,14 @@ bool sphere::hit(const ray &r, double t_min, double t_max, hit_record &rec) cons
     vec3 out_normal = (rec.p - center) / radius;
     rec.set_face_normal(r, out_normal);
     rec.mat_ptr = mat_ptr;
+    return true;
+}
+
+bool sphere::bounding_box(double time0, double time1, aabb &output_box) const
+{
+    output_box = aabb(
+        center - vec3(radius, radius, radius),
+        center + vec3(radius, radius, radius));
     return true;
 }
 
