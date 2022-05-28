@@ -142,6 +142,7 @@ hittable_list create_scene3d()
     hittable_list world;
     // material
     auto material_center = make_shared<lambertian_material>(make_shared<solid_color>(0.7, 0.7, 0.0));
+    auto material_checker = make_shared<lambertian_material>(make_shared<checker_texture>(color(0.2, 0.3, 0.3), color(0.9, 0.9, 0.9)));
     auto material_ground = make_shared<lambertian_material>(color(0.5, 1.0, 1.0));
     auto material_left = make_shared<metal_material>(color(0.7, 0.6, 0.5), 0.0);
     auto material_right = make_shared<metal_material>(color(1, 0, 0.5), 0.2);
@@ -184,14 +185,14 @@ hittable_list create_scene3d()
         }
     }
 
-    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100.0, material_ground));
+    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100.0, material_checker));
     world.add(make_shared<sphere>(point3(0, 0, -1), 0.5, material_left));
     world.add(make_shared<sphere>(point3(-1, 0, -1), 0.5, material_dielectric));
     world.add(make_shared<sphere>(point3(-1, 0, -1), -0.3, material_dielectric)); //负值 ，几何形状不受影响，但表面法线指向内部。这可以用作制造空心玻璃球的气泡
     world.add(make_shared<sphere>(point3(0, 0, -0.5), 0.1, material_center));
     world.add(make_shared<sphere>(point3(1, 0, -1), 0.5, material_right));
     // return world;
-    return hittable_list(make_shared<bvh_node>(world, 0.0, 1.0));//当数量比较多时起作用
+    return hittable_list(make_shared<bvh_node>(world, 0.0, 1.0)); //当数量比较多时起作用
 }
 
 int main()
@@ -223,7 +224,7 @@ int main()
 
     time_t c_scene3d_end = clock();
     std::cerr << "create scene3d time: " << difftime(c_scene3d_end, c_start) << "\n";
-    time_t c_render_start =  clock();
+    time_t c_render_start = clock();
     // 渲染图像
     std::cout << "P3\n"
               << image_width << ' ' << image_height << "\n255\n";
