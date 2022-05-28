@@ -195,6 +195,16 @@ hittable_list create_scene3d()
     return hittable_list(make_shared<bvh_node>(world, 0.0, 1.0)); //当数量比较多时起作用
 }
 
+hittable_list create_two_sphere_scene3d()
+{
+    hittable_list world;
+    auto material_checker_down = make_shared<lambertian_material>(make_shared<checker_texture>(color(1.0, 0.5, 0.0), color(0.8, 0.8, 0.8)));
+    auto material_checker_up = make_shared<lambertian_material>(make_shared<checker_texture>(color(0.9, 0.2, 0.5), color(0.8, 0.8, 0.8)));
+    world.add(make_shared<sphere>(point3(0.0, -20, 0.0), 20.0, material_checker_down));
+    world.add(make_shared<sphere>(point3(0.0, 20.0, 0.0), 20.0, material_checker_up));
+    return world;
+}
+
 int main()
 {
     time_t c_start = clock();
@@ -205,17 +215,35 @@ int main()
     const int image_height = static_cast<int>(image_width / aspect_ratio);
 
     // camera
-    //  point3 lookfrom,
-    //     point3 lookat,
-    //     vec3 vup,
     point3 lookfrom(3, 2, 3);
     point3 lookat(0, 0, -1);
     auto dist_to_focus = (lookfrom - lookat).length(); //焦点的距离
     auto aperture = 0.1;                               //孔距
-    camera cam(lookfrom, lookat, vec3(0, 1, 0), 45.0, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
     //构造场景
     // World
     hittable_list world = create_scene3d();
+
+    switch (2)
+    {
+    case 1:
+        world = create_scene3d();
+        lookfrom = point3(3, 2, 3);
+        lookat = point3(0, 0, -1);
+        dist_to_focus = (lookfrom - lookat).length(); //焦点的距离
+        aperture = 0.1;
+        break;
+    case 2:
+        lookfrom = point3(0, 0, 20);
+        lookat = point3(0, 0, 0);
+        aperture = 0.0;
+        dist_to_focus = (lookfrom - lookat).length();
+        world = create_two_sphere_scene3d();
+        break;
+    default:
+        break;
+    }
+    // camera
+    camera cam(lookfrom, lookat, vec3(0, 1, 0), 45.0, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
 
     //抗锯齿周围像素样本采样数
     const int samples_per_pixel = 10;
