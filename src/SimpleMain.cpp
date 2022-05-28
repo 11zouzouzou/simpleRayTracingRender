@@ -233,7 +233,7 @@ int main()
         aperture = 0.1;
         break;
     case 2:
-        lookfrom = point3(0, 0, 20);
+        lookfrom = point3(0, 3, 20);
         lookat = point3(0, 0, 0);
         aperture = 0.0;
         dist_to_focus = (lookfrom - lookat).length();
