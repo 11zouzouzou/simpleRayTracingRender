@@ -1,6 +1,6 @@
 #ifndef PERLIN_H
 #define PERLIN_H
-#include "utils.h"
+#include "vec3.h"
 /**
  * @brief
  * https://web.archive.org/web/20080724063449/http://freespace.virgin.net/hugo.elias/models/m_perlin.htm
