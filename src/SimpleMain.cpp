@@ -205,6 +205,15 @@ hittable_list create_two_sphere_scene3d()
     return world;
 }
 
+hittable_list create_two_perlin_spheres()
+{
+    hittable_list world;
+    auto pertext = make_shared<noise_texture>();
+    world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian_material>(pertext)));
+    world.add(make_shared<sphere>(point3(0, 2, 0), 2, make_shared<lambertian_material>(pertext)));
+    return world;
+}
+
 int main()
 {
     time_t c_start = clock();
@@ -219,11 +228,12 @@ int main()
     point3 lookat(0, 0, -1);
     auto dist_to_focus = (lookfrom - lookat).length(); //焦点的距离
     auto aperture = 0.1;                               //孔距
+    double vfov = 45.0;
     //构造场景
     // World
     hittable_list world = create_scene3d();
 
-    switch (2)
+    switch (3)
     {
     case 1:
         world = create_scene3d();
@@ -239,11 +249,19 @@ int main()
         dist_to_focus = (lookfrom - lookat).length();
         world = create_two_sphere_scene3d();
         break;
+    case 3:
+        world = create_two_perlin_spheres();
+        lookfrom = point3(13, 2, 3);
+        lookat = point3(0, 0, 0);
+        aperture = 0.0;
+        dist_to_focus = (lookfrom - lookat).length();
+        vfov = 20.0;
+        break;
     default:
         break;
     }
     // camera
-    camera cam(lookfrom, lookat, vec3(0, 1, 0), 45.0, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
+    camera cam(lookfrom, lookat, vec3(0, 1, 0), vfov, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
 
     //抗锯齿周围像素样本采样数
     const int samples_per_pixel = 10;
