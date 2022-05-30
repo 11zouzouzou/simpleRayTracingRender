@@ -8,6 +8,7 @@
 #include "bvh.h"
 #include "texture.h"
 #include "aarect.h"
+#include "box.h"
 #include <iostream>
 // test
 #include <time.h>
@@ -283,6 +284,9 @@ hittable_list cornell_box()
     objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
     objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
 
+    objects.add(make_shared<box>(point3(130, 0, 65), point3(295, 165, 230), white));
+    objects.add(make_shared<box>(point3(265, 0, 295), point3(430, 330, 460), white));
+
     return objects;
 }
 
@@ -359,8 +363,8 @@ int main()
         world = cornell_box();
         aspect_ratio = 1.0;
         image_height = static_cast<int>(image_width / aspect_ratio);
-        samples_per_pixel = 200;
-        background = color(0, 0, 0);
+        samples_per_pixel = 10;
+        background = color(0.0, 0.0, 0.0);
         lookfrom = point3(278, 278, -800);
         lookat = point3(278, 278, 0);
         dist_to_focus = (lookfrom - lookat).length();
