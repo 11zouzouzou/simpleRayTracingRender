@@ -208,7 +208,7 @@ hittable_list create_two_sphere_scene3d()
 hittable_list create_two_perlin_spheres()
 {
     hittable_list world;
-    auto pertext = make_shared<noise_texture>();
+    auto pertext = make_shared<noise_texture>(5);
     world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian_material>(pertext)));
     world.add(make_shared<sphere>(point3(0, 2, 0), 2, make_shared<lambertian_material>(pertext)));
     return world;
