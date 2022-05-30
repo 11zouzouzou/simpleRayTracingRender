@@ -75,7 +75,8 @@ public:
 
     virtual color value(double u, double v, const point3 &p) const override
     {
-        return color(1, 1, 1) * noise.turb(scale * p);
+        // return color(1, 1, 1) * noise.turb(p);
+        return color(1, 1, 1) * 0.5 * (1 + sin(scale * p.x() + 10 * noise.turb(p)));//类大理石纹理
     }
 
 public:
