@@ -7,6 +7,7 @@
 #include "moving_sphere.h"
 #include "bvh.h"
 #include "texture.h"
+#include "aarect.h"
 #include <iostream>
 // test
 #include <time.h>
@@ -157,7 +158,7 @@ color ray_color_hit_track_mat_light(const ray &r, const color &background, const
     if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
     {
         // attenuation 为这次射线的材质的颜色值
-        return emitted + attenuation * ray_color_hit_track_mat(scattered, world, depth - 1);
+        return emitted + attenuation * ray_color_hit_track_mat_light(scattered, background, world, depth - 1);
     }
     return emitted;
 }
@@ -249,6 +250,23 @@ hittable_list create_earth()
     return hittable_list(globe);
 }
 
+hittable_list simple_light()
+{
+    hittable_list objects;
+
+    auto pertext = make_shared<noise_turb_texture>(4);
+    objects.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian_material>(pertext)));
+    objects.add(make_shared<sphere>(point3(0, 2, 0), 2, make_shared<lambertian_material>(pertext)));
+
+    auto earth_texture = make_shared<image_texture>("static/earthmap.jpg");
+    auto earth_difflight = make_shared<diffuse_light>(earth_texture);
+    auto difflight = make_shared<diffuse_light>(color(4, 4, 4));
+    objects.add(make_shared<xy_rect>(3, 5, 1, 3, -2, difflight));
+    objects.add(make_shared<sphere>(point3(0, 2, 6), 2, earth_difflight));
+
+    return objects;
+}
+
 int main()
 {
     time_t c_start = clock();
@@ -270,7 +288,12 @@ int main()
 
     color background = color(0.70, 0.80, 1.00);
 
-    switch (4)
+    //抗锯齿周围像素样本采样数
+    int samples_per_pixel = 10;
+    //一条射线反弹递归最大数
+    const int max_depth = 50;
+
+    switch (5)
     {
     case 1:
         world = create_scene3d();
@@ -302,16 +325,21 @@ int main()
         dist_to_focus = (lookfrom - lookat).length();
         vfov = 20.0;
         break;
+    case 5:
+        world = simple_light();
+        samples_per_pixel = 400;
+        background = color(0, 0, 0);
+        lookfrom = point3(26, 3, 6);
+        lookat = point3(0, 2, 0);
+        aperture = 0.0;
+        dist_to_focus = (lookfrom - lookat).length();
+        vfov = 20.0;
+        break;
     default:
         break;
     }
     // camera
     camera cam(lookfrom, lookat, vec3(0, 1, 0), vfov, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
-
-    //抗锯齿周围像素样本采样数
-    const int samples_per_pixel = 10;
-    //一条射线反弹递归最大数
-    const int max_depth = 50;
 
     time_t c_scene3d_end = clock();
     std::cerr << "create scene3d time: " << difftime(c_scene3d_end, c_start) << "\n";
