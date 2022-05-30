@@ -27,7 +27,7 @@ public:
 
     ~perlin()
     {
-        delete[] ranfloat;
+        // delete[] ranfloat;
         delete[] ranvec;
         delete[] perm_x;
         delete[] perm_y;
@@ -71,13 +71,28 @@ public:
                 }
 
         // return trilinear_interp(c, u, v, w);
-        return 0.5 * (1.0 - perlin_interp(c, u, v, w)); //-1,1 -> 0,1
+        return perlin_interp(c, u, v, w);
+    }
+
+    double turb(const point3 &p, int depth = 7) const
+    {
+        auto accum = 0.0;
+        auto temp_p = p;
+        auto weight = 1.0;
+
+        for (int i = 0; i < depth; i++)
+        {
+            accum += weight * noise(temp_p);
+            weight *= 0.5;
+            temp_p *= 2;
+        }
+        return fabs(accum);
     }
 
 private:
     static const int point_count = 256;
     /*梯度表*/
-    double *ranfloat;
+    // double *ranfloat;
     vec3 *ranvec;
     /*某轴向 随机排列表，由数字0到255散列组成的。*/
     int *perm_x;
@@ -96,7 +111,7 @@ private:
 
     static void permute(int *p, int n)
     {
-        /**0~256随机排序*/
+        /**0~255随机排序*/
         for (int i = n - 1; i > 0; i--)
         {
             int target = random_int(0, i);

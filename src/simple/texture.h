@@ -58,7 +58,24 @@ public:
 
     virtual color value(double u, double v, const point3 &p) const override
     {
-        return color(1, 1, 1) * noise.noise(scale * p);
+        return color(1, 1, 1) * 0.5 * (1.0 - noise.noise(scale * p));
+    }
+
+public:
+    perlin noise;
+    double scale;
+};
+
+class noise_turb_texture : public texture
+{
+public:
+    noise_turb_texture() {}
+
+    noise_turb_texture(double sc) : scale(sc){};
+
+    virtual color value(double u, double v, const point3 &p) const override
+    {
+        return color(1, 1, 1) * noise.turb(scale * p);
     }
 
 public:
