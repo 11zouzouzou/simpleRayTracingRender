@@ -215,6 +215,15 @@ hittable_list create_two_perlin_spheres()
     return world;
 }
 
+hittable_list create_earth()
+{
+    auto earth_texture = make_shared<image_texture>("static/earthmap.jpg");
+    auto earth_surface = make_shared<lambertian_material>(earth_texture);
+    auto globe = make_shared<sphere>(point3(0, 0, 0), 2, earth_surface);
+
+    return hittable_list(globe);
+}
+
 int main()
 {
     time_t c_start = clock();
@@ -234,7 +243,7 @@ int main()
     // World
     hittable_list world = create_scene3d();
 
-    switch (3)
+    switch (4)
     {
     case 1:
         world = create_scene3d();
@@ -252,6 +261,14 @@ int main()
         break;
     case 3:
         world = create_two_perlin_spheres();
+        lookfrom = point3(13, 2, 3);
+        lookat = point3(0, 0, 0);
+        aperture = 0.0;
+        dist_to_focus = (lookfrom - lookat).length();
+        vfov = 20.0;
+        break;
+    case 4:
+        world = create_earth();
         lookfrom = point3(13, 2, 3);
         lookat = point3(0, 0, 0);
         aperture = 0.0;

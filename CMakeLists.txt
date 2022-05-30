@@ -1,11 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
-project(SimpleRayTracingRender)
+project(SimpleRayTracingRender 
+VERSION 3.0.0
+LANGUAGES CXX)
 # Set to c++11
 set ( CMAKE_CXX_STANDARD 11 )
 
 # Source
 set(COMMON_ALL 
- src/public/math/vec3.h)
+ src/public/math/vec3.h
+#  src/public/others/external_stb_image.h
+#  src/public/others/self_stb_image.h
+ )
 
  set(SIMPLE_MAIN
  ${COMMON_ALL}
@@ -14,7 +19,8 @@ set(COMMON_ALL
 
 add_executable(SimpleRayTracingRender ${SIMPLE_MAIN})
 
-# 包含math文件 
+# 包含math,others文件 
 include_directories(src/public/math)
+include_directories(src/public/others)
 # 包含simple文件 
 include_directories(src/simple)
