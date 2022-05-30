@@ -137,6 +137,31 @@ color ray_color_hit_track_mat(const ray &r, const hittable &world, int depth)
     return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 
+color ray_color_hit_track_mat_light(const ray &r, const color &background, const hittable &world, int depth)
+{
+    hit_record rec;
+    // 递归超出范围默认为黑色，不做光贡献
+    if (depth <= 0)
+        return color(0, 0, 0);
+
+    // If the ray hits nothing, return the background color.//t_min = 0的话 ，一些反射光线击中了它们所反射的物体，不是精确地𝑡 = 0，导致每次都渲染到最大递归值，无光贡献，画面就会很黑
+    if (!world.hit(r, 0.001, infinity, rec))
+        return background;
+
+    //递归
+    // use material
+    ray scattered;
+    color attenuation;
+    color emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p); //击中的材质是否发光
+
+    if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+    {
+        // attenuation 为这次射线的材质的颜色值
+        return emitted + attenuation * ray_color_hit_track_mat(scattered, world, depth - 1);
+    }
+    return emitted;
+}
+
 hittable_list create_scene3d()
 {
     hittable_list world;
@@ -243,6 +268,8 @@ int main()
     // World
     hittable_list world = create_scene3d();
 
+    color background = color(0.70, 0.80, 1.00);
+
     switch (4)
     {
     case 1:
@@ -317,7 +344,8 @@ int main()
                 ray r = cam.get_ray(u, v);
                 // pixel_color += ray_color_hit(r, world);
                 //  pixel_color += ray_color_hit_track(r, world, max_depth);
-                pixel_color += ray_color_hit_track_mat(r, world, max_depth);
+                // pixel_color += ray_color_hit_track_mat(r, world, max_depth);
+                pixel_color += ray_color_hit_track_mat_light(r, background, world, max_depth);
             }
             write_color_multiply_samples(std::cout, pixel_color, samples_per_pixel);
         }
