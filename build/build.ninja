@@ -133,6 +133,38 @@ build X_SQ: CXX_EXECUTABLE_LINKER__X_SQ_Debug CMakeFiles/X_SQ.dir/src/intergrate
   TARGET_FILE = X_SQ
   TARGET_PDB = X_SQ.dbg
 
+# =============================================================================
+# Object build statements for EXECUTABLE target SPHERE_IMPORTANCE
+
+
+#############################################
+# Order-only phony target for SPHERE_IMPORTANCE
+
+build cmake_object_order_depends_target_SPHERE_IMPORTANCE: phony || CMakeFiles/SPHERE_IMPORTANCE.dir
+
+build CMakeFiles/SPHERE_IMPORTANCE.dir/src/sphere_importance.cpp.o: CXX_COMPILER__SPHERE_IMPORTANCE_Debug /Users/zou/Downloads/github/simpleRayTracingRender/src/sphere_importance.cpp || cmake_object_order_depends_target_SPHERE_IMPORTANCE
+  DEP_FILE = CMakeFiles/SPHERE_IMPORTANCE.dir/src/sphere_importance.cpp.o.d
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11
+  INCLUDES = -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/others -I/Users/zou/Downloads/github/simpleRayTracingRender/src/simple
+  OBJECT_DIR = CMakeFiles/SPHERE_IMPORTANCE.dir
+  OBJECT_FILE_DIR = CMakeFiles/SPHERE_IMPORTANCE.dir/src
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target SPHERE_IMPORTANCE
+
+
+#############################################
+# Link the executable SPHERE_IMPORTANCE
+
+build SPHERE_IMPORTANCE: CXX_EXECUTABLE_LINKER__SPHERE_IMPORTANCE_Debug CMakeFiles/SPHERE_IMPORTANCE.dir/src/sphere_importance.cpp.o
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
+  OBJECT_DIR = CMakeFiles/SPHERE_IMPORTANCE.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = SPHERE_IMPORTANCE
+  TARGET_PDB = SPHERE_IMPORTANCE.dbg
+
 
 #############################################
 # Utility command for edit_cache
@@ -168,7 +200,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /Users/zou/Downloads/github/simpleRayTracingRender/build
 
-build all: phony SimpleRayTracingRender PI X_SQ
+build all: phony SimpleRayTracingRender PI X_SQ SPHERE_IMPORTANCE
 
 # =============================================================================
 # Built-in targets
