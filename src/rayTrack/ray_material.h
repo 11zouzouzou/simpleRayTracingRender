@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "texture.h"
+#include "onb.h"
 
 struct hit_record;
 
@@ -46,17 +47,23 @@ public:
     virtual bool scatter(
         const ray &r_in, const hit_record &rec, color &alb, ray &scattered, double &pdf) const override
     {
-        auto scatter_direction = rec.normal + random_unit_vector();
+        //随机-1,1采样
+        // auto scatter_direction = rec.normal + random_unit_vector();
 
         // Catch degenerate scatter direction
-        if (scatter_direction.near_zero())
-            scatter_direction = rec.normal;
+        // if (scatter_direction.near_zero())
+        //     scatter_direction = rec.normal;
         //半球采样
         // auto scatter_direction = random_in_hemisphere(rec.normal);
+        //正交基//https://zhuanlan.zhihu.com/p/351071035
+        onb uvw;
+        uvw.build_from_w(rec.normal);
+        auto scatter_direction = uvw.local(random_cosine_direction());
         scattered = ray(rec.p, unit_vector(scatter_direction), r_in.time());
         alb = albedo->value(rec.u, rec.v, rec.p);
-        pdf = dot(rec.normal, scattered.direction()) / pi;//mc
+        // pdf = dot(rec.normal, scattered.direction()) / pi; // mc
         // pdf = 0.5 / pi;
+        pdf = dot(uvw.w(), scattered.direction()) / pi;
         return true;
     }
     double scattering_pdf(
