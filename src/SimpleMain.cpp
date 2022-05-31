@@ -365,7 +365,7 @@ hittable_list final_scene()
     objects.add(make_shared<sphere>(
         point3(0, 150, 145), 50, make_shared<metal_material>(color(0.8, 0.8, 0.9), 1.0)));//白色金属球
 
-    auto boundary = make_shared<sphere>(point3(360, 150, 145), 70, make_shared<dielectric_material>(1.5));/
+    auto boundary = make_shared<sphere>(point3(360, 150, 145), 70, make_shared<dielectric_material>(1.5));
     objects.add(boundary);
     objects.add(make_shared<constant_medium>(boundary, 0.2, color(0.2, 0.4, 0.9)));//蓝球雾
     boundary = make_shared<sphere>(point3(0, 0, 0), 5000, make_shared<dielectric_material>(1.5));

@@ -18,6 +18,7 @@ set(COMMON_ALL
  )
 
 add_executable(SimpleRayTracingRender ${SIMPLE_MAIN})
+add_executable(PI src/pi.cpp ${COMMON_ALL})
 
 # 包含math,others文件 
 include_directories(src/public/math)

@@ -69,6 +69,38 @@ build SimpleRayTracingRender: CXX_EXECUTABLE_LINKER__SimpleRayTracingRender_Debu
   TARGET_FILE = SimpleRayTracingRender
   TARGET_PDB = SimpleRayTracingRender.dbg
 
+# =============================================================================
+# Object build statements for EXECUTABLE target PI
+
+
+#############################################
+# Order-only phony target for PI
+
+build cmake_object_order_depends_target_PI: phony || CMakeFiles/PI.dir
+
+build CMakeFiles/PI.dir/src/pi.cpp.o: CXX_COMPILER__PI_Debug /Users/zou/Downloads/github/simpleRayTracingRender/src/pi.cpp || cmake_object_order_depends_target_PI
+  DEP_FILE = CMakeFiles/PI.dir/src/pi.cpp.o.d
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11
+  INCLUDES = -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/others -I/Users/zou/Downloads/github/simpleRayTracingRender/src/simple
+  OBJECT_DIR = CMakeFiles/PI.dir
+  OBJECT_FILE_DIR = CMakeFiles/PI.dir/src
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target PI
+
+
+#############################################
+# Link the executable PI
+
+build PI: CXX_EXECUTABLE_LINKER__PI_Debug CMakeFiles/PI.dir/src/pi.cpp.o
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
+  OBJECT_DIR = CMakeFiles/PI.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = PI
+  TARGET_PDB = PI.dbg
+
 
 #############################################
 # Utility command for edit_cache
@@ -104,7 +136,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /Users/zou/Downloads/github/simpleRayTracingRender/build
 
-build all: phony SimpleRayTracingRender
+build all: phony SimpleRayTracingRender PI
 
 # =============================================================================
 # Built-in targets
