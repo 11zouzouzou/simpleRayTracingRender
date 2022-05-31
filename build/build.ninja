@@ -197,6 +197,38 @@ build RAYTRACK: CXX_EXECUTABLE_LINKER__RAYTRACK_Debug CMakeFiles/RAYTRACK.dir/sr
   TARGET_FILE = RAYTRACK
   TARGET_PDB = RAYTRACK.dbg
 
+# =============================================================================
+# Object build statements for EXECUTABLE target SPHERE_PLOT
+
+
+#############################################
+# Order-only phony target for SPHERE_PLOT
+
+build cmake_object_order_depends_target_SPHERE_PLOT: phony || CMakeFiles/SPHERE_PLOT.dir
+
+build CMakeFiles/SPHERE_PLOT.dir/src/sphere_plot.cpp.o: CXX_COMPILER__SPHERE_PLOT_Debug /Users/zou/Downloads/github/simpleRayTracingRender/src/sphere_plot.cpp || cmake_object_order_depends_target_SPHERE_PLOT
+  DEP_FILE = CMakeFiles/SPHERE_PLOT.dir/src/sphere_plot.cpp.o.d
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11
+  INCLUDES = -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/others -I/Users/zou/Downloads/github/simpleRayTracingRender/src/simple
+  OBJECT_DIR = CMakeFiles/SPHERE_PLOT.dir
+  OBJECT_FILE_DIR = CMakeFiles/SPHERE_PLOT.dir/src
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target SPHERE_PLOT
+
+
+#############################################
+# Link the executable SPHERE_PLOT
+
+build SPHERE_PLOT: CXX_EXECUTABLE_LINKER__SPHERE_PLOT_Debug CMakeFiles/SPHERE_PLOT.dir/src/sphere_plot.cpp.o
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
+  OBJECT_DIR = CMakeFiles/SPHERE_PLOT.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = SPHERE_PLOT
+  TARGET_PDB = SPHERE_PLOT.dbg
+
 
 #############################################
 # Utility command for edit_cache
@@ -232,7 +264,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /Users/zou/Downloads/github/simpleRayTracingRender/build
 
-build all: phony SimpleRayTracingRender PI X_SQ SPHERE_IMPORTANCE RAYTRACK
+build all: phony SimpleRayTracingRender PI X_SQ SPHERE_IMPORTANCE RAYTRACK SPHERE_PLOT
 
 # =============================================================================
 # Built-in targets
