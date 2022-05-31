@@ -101,6 +101,38 @@ build PI: CXX_EXECUTABLE_LINKER__PI_Debug CMakeFiles/PI.dir/src/pi.cpp.o
   TARGET_FILE = PI
   TARGET_PDB = PI.dbg
 
+# =============================================================================
+# Object build statements for EXECUTABLE target X_SQ
+
+
+#############################################
+# Order-only phony target for X_SQ
+
+build cmake_object_order_depends_target_X_SQ: phony || CMakeFiles/X_SQ.dir
+
+build CMakeFiles/X_SQ.dir/src/intergrate_x_sq.cpp.o: CXX_COMPILER__X_SQ_Debug /Users/zou/Downloads/github/simpleRayTracingRender/src/intergrate_x_sq.cpp || cmake_object_order_depends_target_X_SQ
+  DEP_FILE = CMakeFiles/X_SQ.dir/src/intergrate_x_sq.cpp.o.d
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11
+  INCLUDES = -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/others -I/Users/zou/Downloads/github/simpleRayTracingRender/src/simple
+  OBJECT_DIR = CMakeFiles/X_SQ.dir
+  OBJECT_FILE_DIR = CMakeFiles/X_SQ.dir/src
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target X_SQ
+
+
+#############################################
+# Link the executable X_SQ
+
+build X_SQ: CXX_EXECUTABLE_LINKER__X_SQ_Debug CMakeFiles/X_SQ.dir/src/intergrate_x_sq.cpp.o
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
+  OBJECT_DIR = CMakeFiles/X_SQ.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = X_SQ
+  TARGET_PDB = X_SQ.dbg
+
 
 #############################################
 # Utility command for edit_cache
@@ -136,7 +168,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /Users/zou/Downloads/github/simpleRayTracingRender/build
 
-build all: phony SimpleRayTracingRender PI
+build all: phony SimpleRayTracingRender PI X_SQ
 
 # =============================================================================
 # Built-in targets
