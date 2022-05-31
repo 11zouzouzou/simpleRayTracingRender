@@ -23,6 +23,8 @@ add_executable(X_SQ src/intergrate_x_sq.cpp ${COMMON_ALL})
 add_executable(SPHERE_IMPORTANCE src/sphere_importance.cpp ${COMMON_ALL})
 add_executable(RAYTRACK src/rayTrack/main.cpp ${COMMON_ALL})
 add_executable(SPHERE_PLOT src/sphere_plot.cpp ${COMMON_ALL})
+add_executable(COS_CUBED src/cos_cubed.cpp ${COMMON_ALL})
+add_executable(COS_DENSITY src/cos_density.cpp ${COMMON_ALL})
 
 # 包含math,others文件 
 include_directories(src/public/math)

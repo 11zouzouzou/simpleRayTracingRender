@@ -28,5 +28,15 @@
   "directory": "/Users/zou/Downloads/github/simpleRayTracingRender/build",
   "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/others -I/Users/zou/Downloads/github/simpleRayTracingRender/src/simple -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/SPHERE_PLOT.dir/src/sphere_plot.cpp.o -c /Users/zou/Downloads/github/simpleRayTracingRender/src/sphere_plot.cpp",
   "file": "/Users/zou/Downloads/github/simpleRayTracingRender/src/sphere_plot.cpp"
+},
+{
+  "directory": "/Users/zou/Downloads/github/simpleRayTracingRender/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/others -I/Users/zou/Downloads/github/simpleRayTracingRender/src/simple -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/COS_CUBED.dir/src/cos_cubed.cpp.o -c /Users/zou/Downloads/github/simpleRayTracingRender/src/cos_cubed.cpp",
+  "file": "/Users/zou/Downloads/github/simpleRayTracingRender/src/cos_cubed.cpp"
+},
+{
+  "directory": "/Users/zou/Downloads/github/simpleRayTracingRender/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/others -I/Users/zou/Downloads/github/simpleRayTracingRender/src/simple -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/COS_DENSITY.dir/src/cos_density.cpp.o -c /Users/zou/Downloads/github/simpleRayTracingRender/src/cos_density.cpp",
+  "file": "/Users/zou/Downloads/github/simpleRayTracingRender/src/cos_density.cpp"
 }
 ]

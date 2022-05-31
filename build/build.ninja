@@ -229,6 +229,70 @@ build SPHERE_PLOT: CXX_EXECUTABLE_LINKER__SPHERE_PLOT_Debug CMakeFiles/SPHERE_PL
   TARGET_FILE = SPHERE_PLOT
   TARGET_PDB = SPHERE_PLOT.dbg
 
+# =============================================================================
+# Object build statements for EXECUTABLE target COS_CUBED
+
+
+#############################################
+# Order-only phony target for COS_CUBED
+
+build cmake_object_order_depends_target_COS_CUBED: phony || CMakeFiles/COS_CUBED.dir
+
+build CMakeFiles/COS_CUBED.dir/src/cos_cubed.cpp.o: CXX_COMPILER__COS_CUBED_Debug /Users/zou/Downloads/github/simpleRayTracingRender/src/cos_cubed.cpp || cmake_object_order_depends_target_COS_CUBED
+  DEP_FILE = CMakeFiles/COS_CUBED.dir/src/cos_cubed.cpp.o.d
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11
+  INCLUDES = -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/others -I/Users/zou/Downloads/github/simpleRayTracingRender/src/simple
+  OBJECT_DIR = CMakeFiles/COS_CUBED.dir
+  OBJECT_FILE_DIR = CMakeFiles/COS_CUBED.dir/src
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target COS_CUBED
+
+
+#############################################
+# Link the executable COS_CUBED
+
+build COS_CUBED: CXX_EXECUTABLE_LINKER__COS_CUBED_Debug CMakeFiles/COS_CUBED.dir/src/cos_cubed.cpp.o
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
+  OBJECT_DIR = CMakeFiles/COS_CUBED.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = COS_CUBED
+  TARGET_PDB = COS_CUBED.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target COS_DENSITY
+
+
+#############################################
+# Order-only phony target for COS_DENSITY
+
+build cmake_object_order_depends_target_COS_DENSITY: phony || CMakeFiles/COS_DENSITY.dir
+
+build CMakeFiles/COS_DENSITY.dir/src/cos_density.cpp.o: CXX_COMPILER__COS_DENSITY_Debug /Users/zou/Downloads/github/simpleRayTracingRender/src/cos_density.cpp || cmake_object_order_depends_target_COS_DENSITY
+  DEP_FILE = CMakeFiles/COS_DENSITY.dir/src/cos_density.cpp.o.d
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11
+  INCLUDES = -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/others -I/Users/zou/Downloads/github/simpleRayTracingRender/src/simple
+  OBJECT_DIR = CMakeFiles/COS_DENSITY.dir
+  OBJECT_FILE_DIR = CMakeFiles/COS_DENSITY.dir/src
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target COS_DENSITY
+
+
+#############################################
+# Link the executable COS_DENSITY
+
+build COS_DENSITY: CXX_EXECUTABLE_LINKER__COS_DENSITY_Debug CMakeFiles/COS_DENSITY.dir/src/cos_density.cpp.o
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
+  OBJECT_DIR = CMakeFiles/COS_DENSITY.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = COS_DENSITY
+  TARGET_PDB = COS_DENSITY.dbg
+
 
 #############################################
 # Utility command for edit_cache
@@ -264,7 +328,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /Users/zou/Downloads/github/simpleRayTracingRender/build
 
-build all: phony SimpleRayTracingRender PI X_SQ SPHERE_IMPORTANCE RAYTRACK SPHERE_PLOT
+build all: phony SimpleRayTracingRender PI X_SQ SPHERE_IMPORTANCE RAYTRACK SPHERE_PLOT COS_CUBED COS_DENSITY
 
 # =============================================================================
 # Built-in targets
