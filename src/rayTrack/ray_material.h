@@ -16,7 +16,7 @@ public:
     }
 
     virtual bool scatter(
-        const ray &r_in, const hit_record &rec, color &albedo, ray &scattered,double &pdf) const
+        const ray &r_in, const hit_record &rec, color &albedo, ray &scattered, double &pdf) const
     {
         return false;
     }
@@ -51,9 +51,12 @@ public:
         // Catch degenerate scatter direction
         if (scatter_direction.near_zero())
             scatter_direction = rec.normal;
+        //半球采样
+        // auto scatter_direction = random_in_hemisphere(rec.normal);
         scattered = ray(rec.p, unit_vector(scatter_direction), r_in.time());
         alb = albedo->value(rec.u, rec.v, rec.p);
-        pdf = dot(rec.normal, scattered.direction()) / pi;
+        pdf = dot(rec.normal, scattered.direction()) / pi;//mc
+        // pdf = 0.5 / pi;
         return true;
     }
     double scattering_pdf(
