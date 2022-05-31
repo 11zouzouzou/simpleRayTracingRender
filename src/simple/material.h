@@ -135,4 +135,21 @@ public:
     }
 };
 
+class isotropic : public material
+{
+public:
+    shared_ptr<texture> albedo;
+
+public:
+    isotropic(color c) : albedo(make_shared<solid_color>(c)) {}
+    isotropic(shared_ptr<texture> a) : albedo(a) {}
+    virtual bool scatter(const ray &r_in, const hit_record &rec, color &attenuation, ray &scattered) const override
+    {
+        /**如果当前ray在体中，但是新的投射中雾没有被击中，则又会去击中其他物体，同时雾的颜色也会作为attenuation乘积到最后的结果中。*/
+        scattered = ray(rec.p, random_in_unit_sphere(), r_in.time());
+        attenuation = albedo->value(rec.u, rec.v, rec.p);
+        return true;
+    }
+};
+
 #endif
