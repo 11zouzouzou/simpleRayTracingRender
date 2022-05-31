@@ -165,6 +165,38 @@ build SPHERE_IMPORTANCE: CXX_EXECUTABLE_LINKER__SPHERE_IMPORTANCE_Debug CMakeFil
   TARGET_FILE = SPHERE_IMPORTANCE
   TARGET_PDB = SPHERE_IMPORTANCE.dbg
 
+# =============================================================================
+# Object build statements for EXECUTABLE target RAYTRACK
+
+
+#############################################
+# Order-only phony target for RAYTRACK
+
+build cmake_object_order_depends_target_RAYTRACK: phony || CMakeFiles/RAYTRACK.dir
+
+build CMakeFiles/RAYTRACK.dir/src/rayTrack/main.cpp.o: CXX_COMPILER__RAYTRACK_Debug /Users/zou/Downloads/github/simpleRayTracingRender/src/rayTrack/main.cpp || cmake_object_order_depends_target_RAYTRACK
+  DEP_FILE = CMakeFiles/RAYTRACK.dir/src/rayTrack/main.cpp.o.d
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -std=gnu++11
+  INCLUDES = -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/math -I/Users/zou/Downloads/github/simpleRayTracingRender/src/public/others -I/Users/zou/Downloads/github/simpleRayTracingRender/src/simple
+  OBJECT_DIR = CMakeFiles/RAYTRACK.dir
+  OBJECT_FILE_DIR = CMakeFiles/RAYTRACK.dir/src/rayTrack
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target RAYTRACK
+
+
+#############################################
+# Link the executable RAYTRACK
+
+build RAYTRACK: CXX_EXECUTABLE_LINKER__RAYTRACK_Debug CMakeFiles/RAYTRACK.dir/src/rayTrack/main.cpp.o
+  FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
+  OBJECT_DIR = CMakeFiles/RAYTRACK.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = RAYTRACK
+  TARGET_PDB = RAYTRACK.dbg
+
 
 #############################################
 # Utility command for edit_cache
@@ -200,7 +232,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /Users/zou/Downloads/github/simpleRayTracingRender/build
 
-build all: phony SimpleRayTracingRender PI X_SQ SPHERE_IMPORTANCE
+build all: phony SimpleRayTracingRender PI X_SQ SPHERE_IMPORTANCE RAYTRACK
 
 # =============================================================================
 # Built-in targets
